@@ -99,6 +99,7 @@ class Login extends StatelessWidget{
                 child: ElevatedButton(
                   onPressed: () {
                     c.loginMessageShow();
+                    c.getToHomePage();
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 10,
