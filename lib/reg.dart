@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hotel_khujo/RegC.dart';
 
 class Register extends StatefulWidget {
   final String title;
@@ -13,6 +15,10 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+
+  bool _isHidden=true;
+  final RegC c=Get.put(RegC());
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,8 +31,8 @@ class _RegisterState extends State<Register> {
         body: Stack(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 35, top: 70),
-              child: Text('Create\nAccount', style: TextStyle(
+              padding: const EdgeInsets.only(left: 35, top: 70),
+              child: const Text('Create\nAccount', style: TextStyle(
                 color: Colors.deepOrange,
                 fontSize: 33,
               ),),
@@ -66,13 +72,21 @@ class _RegisterState extends State<Register> {
                       height: 30,
                     ),
                     TextField(
-                      obscureText: true,
+                      obscureText: _isHidden,
                       decoration: InputDecoration(
                           fillColor: Colors.grey.shade100,
                           filled: true,
                           hintText: 'Password',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
+                          ),
+                          suffix: InkWell(
+                            onTap: _togglePasswordView,
+                            child: Icon(
+                                    _isHidden
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
                           )
                       ),
                     ),
@@ -93,7 +107,10 @@ class _RegisterState extends State<Register> {
                           radius: 30,
                           backgroundColor: Colors.orange[200],
                           child: IconButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              c.regMessageShow();
+                              c.getToLoginPage();
+                            },
                             icon: Icon(Icons.arrow_forward),
                           ),
                         )
@@ -109,5 +126,10 @@ class _RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+  void _togglePasswordView(){
+    setState(() {
+      _isHidden=!_isHidden;
+    });
   }
 }

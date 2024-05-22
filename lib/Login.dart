@@ -3,8 +3,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Login extends StatelessWidget{
+class Login extends StatefulWidget{
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+
+  bool _isHidden=true;
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +98,16 @@ class Login extends StatelessWidget{
                     fillColor: Colors.white10,
                     focusedBorder: border,
                     enabledBorder: border,
+                    suffix: InkWell(
+                      onTap: _togglePasswordView,
+                      child: Icon(
+                        _isHidden
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                      ),
+                    )
                   ),
-                  obscureText: true,
+                  obscureText: _isHidden,
                 ) ,
               ),
               Padding(
@@ -137,6 +153,9 @@ class Login extends StatelessWidget{
 
     );
   }
-
-
+  void _togglePasswordView(){
+    setState(() {
+      _isHidden=!_isHidden;
+    });
+}
 }
