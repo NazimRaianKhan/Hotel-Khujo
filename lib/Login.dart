@@ -118,7 +118,7 @@ class Login extends StatelessWidget{
                 child: TextButton(
                   onPressed: () {
                     c.regMessageShow();
-                    //c.getToRegPage();
+                    c.getToRegPage();
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
