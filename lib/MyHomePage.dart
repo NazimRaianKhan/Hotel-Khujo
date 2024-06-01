@@ -6,6 +6,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+
 class MyHomePage extends StatefulWidget {
   final String title;
 
@@ -13,19 +29,6 @@ class MyHomePage extends StatefulWidget {
     super.key,
     required this.title,
   });
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
