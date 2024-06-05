@@ -3,6 +3,8 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hotel_khujo/Pages/HelpC.dart';
 
 // void main() => runApp(const MyApp());
 
@@ -37,6 +39,9 @@ class HelpPage extends StatefulWidget {
 class _HelpPageState extends State<HelpPage> {
   @override
   Widget build(BuildContext context) {
+
+    final HelpC a=Get.put(HelpC());
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -52,12 +57,16 @@ class _HelpPageState extends State<HelpPage> {
                 ListTile(
                   leading: Icon(Icons.home),
                   title: Text("Home"),
-                  onTap: () {}, //Home Page
+                  onTap: () {
+                    a.getToHomePage();
+                  }, //Home Page
                 ),
                 ListTile(
                   leading: Icon(Icons.account_circle),
                   title: Text("Profile"),
-                  onTap: () {}, //Profile Page
+                  onTap: () {
+                    a.getToProfilePage();
+                  }, //Profile Page
                 ),
                 ListTile(
                   leading: Icon(Icons.assignment_turned_in),

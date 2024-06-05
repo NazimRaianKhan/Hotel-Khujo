@@ -3,6 +3,8 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hotel_khujo/Pages/profileC.dart';
 
 // void main() => runApp(const MyApp());
 
@@ -37,6 +39,9 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+
+    final profileC a=Get.put(profileC());
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -52,7 +57,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ListTile(
                   leading: Icon(Icons.home),
                   title: Text("Home"),
-                  onTap: () {}, //Home Page
+                  onTap: () {
+                    a.getToHomePage();
+                  }, //Home Page
                 ),
                 
                 ListTile(
@@ -68,7 +75,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ListTile(
                   leading: Icon(Icons.announcement),
                   title: Text("Helps and Services"),
-                  onTap: () {}, //Help Page
+                  onTap: () {
+                    a.getToHelpPage();
+                  }, //Help Page
                 ),
               ],
             )),

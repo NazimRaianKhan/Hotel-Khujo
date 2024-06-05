@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotel_khujo/MyHomePageC.dart';
 
 class MyHomePage extends StatefulWidget {
   final String title;
@@ -28,6 +29,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final MyHomePageC a=Get.put(MyHomePageC());
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -52,7 +56,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ListTile(
                   leading: Icon(Icons.account_circle),
                   title: Text("Profile"),
-                  onTap: () {}, //Profile Page
+                  onTap: () {
+                    a.getToProfilePage();
+                  }, //Profile Page
                 ),
                 ListTile(
                   leading: Icon(Icons.assignment_turned_in),
@@ -67,7 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ListTile(
                   leading: Icon(Icons.announcement),
                   title: Text("Helps and Services"),
-                  onTap: () {}, //Help Page
+                  onTap: () {
+                    a.getToHelpPage();
+                  }, //Help Page
                 ),
               ],
             )),
