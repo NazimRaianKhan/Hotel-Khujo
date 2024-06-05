@@ -21,109 +21,88 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.orange,
-          elevation: 0,
-        ),
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            Container(
-              padding: const EdgeInsets.only(left: 35, top: 70),
-              child: const Text('Create\nAccount', style: TextStyle(
-                color: Colors.deepOrange,
-                fontSize: 33,
-              ),),
-            ),
-            SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.28,
-                    right: 35,
-                    left: 35),
-                child: Column(
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(
-                          fillColor: Colors.grey.shade100,
-                          filled: true,
-                          hintText: 'Name',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        elevation: 0,
+      ),
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 35, top: 100),
+            child: const Text('Sign up', style: TextStyle(
+              color: Colors.deepOrange,
+              fontSize: 33,
+            ),),
+          ),
+          SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.28,
+                  right: 35,
+                  left: 35),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'Name',
+                        border: UnderlineInputBorder(),
                       ),
                     ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                          fillColor: Colors.grey.shade100,
-                          filled: true,
-                          hintText: 'Email',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'Email',
+                        border: UnderlineInputBorder(),
                       ),
                     ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    TextField(
-                      obscureText: _isHidden,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: TextField(
                       decoration: InputDecoration(
-                          fillColor: Colors.grey.shade100,
-                          filled: true,
-                          hintText: 'Password',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          suffix: InkWell(
-                            onTap: _togglePasswordView,
-                            child: Icon(
-                                    _isHidden
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                            ),
-                          )
+                        hintText: 'Password',
+                        border: UnderlineInputBorder(),
                       ),
                     ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Sign Up',
-                          style: TextStyle(
-                              color: Colors.orange,
-                              fontSize: 27,
-                              fontWeight: FontWeight.w700),
+                  ),
+
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: ElevatedButton(
+                      onPressed: () {
+                      },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 10,
+                        backgroundColor: Colors.orangeAccent,
+                        foregroundColor: Colors.white,
+                        minimumSize: const Size(double.infinity,50),
+                        shape:RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
                         ),
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.orange[200],
-                          child: IconButton(
-                            onPressed: (){
-                              c.regMessageShow();
-                              c.getToLoginPage();
-                            },
-                            icon: Icon(Icons.arrow_forward),
-                          ),
-                        )
-                      ],
+                      ),
+                      child: const Text('Sign up'),
                     ),
-
-
-                  ],
-                ),
+                  ),
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

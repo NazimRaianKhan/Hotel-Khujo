@@ -10,7 +10,7 @@ class Splashscreen extends StatelessWidget{
     // TODO: implement build
     return AnimatedSplashScreen(
         splash: Image.asset('assets/logo1.png'),
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Colors.white,
         nextScreen: const Login(),
         duration: 2500,
         splashTransition: SplashTransition.fadeTransition,
