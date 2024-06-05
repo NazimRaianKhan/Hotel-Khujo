@@ -47,6 +47,7 @@ class _RegisterState extends State<Register> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                     child: TextFormField(
+                      controller: Get.find<RegC>().name,
                       decoration: const InputDecoration(
                         hintText: 'Name',
                         border: UnderlineInputBorder(),
@@ -59,19 +60,21 @@ class _RegisterState extends State<Register> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                     child: TextFormField(
+                      controller: Get.find<RegC>().mail,
                       decoration: const InputDecoration(
                         hintText: 'Email',
                         border: UnderlineInputBorder(),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                   Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: Get.find<RegC>().pass,
+                      decoration: const InputDecoration(
                         hintText: 'Password',
                         border: UnderlineInputBorder(),
                       ),
@@ -84,7 +87,8 @@ class _RegisterState extends State<Register> {
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async{
+                        Get.find<RegC>().signUp(context);
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 10,

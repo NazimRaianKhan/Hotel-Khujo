@@ -4,7 +4,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotel_khujo/LoginC.dart';
 import 'package:hotel_khujo/Pages/profileC.dart';
+import 'package:hotel_khujo/RegC.dart';
 
 // void main() => runApp(const MyApp());
 
@@ -102,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
 
             Text(
-              'Username',
+              a.displayName()!.toUpperCase(),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 25,
@@ -113,14 +115,14 @@ class _ProfilePageState extends State<ProfilePage> {
             // Use firebase to fill in the names and ids
 
             Text(
-              'Name',
+              'Name: ${a.displayName()}',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 15,
               ),
             ),
             Text(
-              'Email',
+              'Email: ${Get.find<LoginC>().mail.text}',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 15,

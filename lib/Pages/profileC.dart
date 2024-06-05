@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_khujo/MyHomePage.dart';
@@ -15,5 +16,10 @@ class profileC extends GetxController{
     transition: Transition.rightToLeft,
     duration: Durations.long1,
   );
+
+  String? displayName(){
+    final user = FirebaseAuth.instance.currentUser;
+    return user?.displayName;
+  }
 
 }
