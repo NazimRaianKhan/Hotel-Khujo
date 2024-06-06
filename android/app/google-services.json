@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "243102820200",
+    "project_id": "hotelkhujo-37062",
+    "storage_bucket": "hotelkhujo-37062.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243102820200:android:61a3d406e394939cc3d8dd",
+        "android_client_info": {
+          "package_name": "com.example.hotel_khujo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2c7ydCon4AR7yK7QIQiZzasUZ89SUxEA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
