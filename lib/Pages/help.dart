@@ -53,7 +53,7 @@ class _HelpPageState extends State<HelpPage> {
             color: const Color.fromRGBO(255, 183, 77, 1),
             child: ListView(
               children: [
-                DrawerHeader(child: Center(child: Text("Insert Icon here"))),
+                DrawerHeader(child: Center(child: Image.asset('assets/logo1.png'))),
                 ListTile(
                   leading: Icon(Icons.home),
                   title: Text("Home"),

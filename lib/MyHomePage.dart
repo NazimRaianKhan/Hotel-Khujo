@@ -2,8 +2,11 @@
  * @author: ARDhruvo
 */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotel_khujo/Hotel/HotelDetailPageC.dart';
+import 'package:hotel_khujo/Hotel/hotel.dart';
 import 'package:hotel_khujo/MyHomePageC.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -52,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
             color: const Color.fromRGBO(255,183,77, 1),
             child: ListView(
               children: [
-                DrawerHeader(child: Center(child: Text("Insert Icon here"))),
+                DrawerHeader(child: Center(child: Image.asset('assets/logo1.png'),)),
                 ListTile(
                   leading: Icon(Icons.account_circle),
                   title: Text("Profile"),
@@ -105,12 +108,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-class CustomSearchDelegate extends SearchDelegate {
-  List<String> searchTerms = [
-    'Shonargaon Hotel',
-    'Inter Continental Hotel',
-    'Mayer Doya Hotel',
-  ];
+class CustomSearchDelegate extends SearchDelegate<String> {
+
+  final Hoteldetailpagec a=Get.put(Hoteldetailpagec());
 
   @override
   List<IconButton> buildActions(BuildContext context) {
@@ -128,14 +128,14 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget buildLeading(BuildContext context) {
     return IconButton(icon: const Icon(Icons.arrow_back),
       onPressed: () {
-        close(context, null);
+        close(context, '');
       },
     );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
+    /*List<String> matchQuery = [];
     for (var fruit in searchTerms) {
       if (fruit.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(fruit);
@@ -149,13 +149,14 @@ class CustomSearchDelegate extends SearchDelegate {
           title: Text(result),
         );
       },
-    );
+    );*/
+    return _buildSearchResults(query);
   }
 
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
+    /*List<String> matchQuery = [];
     for (var fruit in searchTerms) {
       if (fruit.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(fruit);
@@ -169,6 +170,50 @@ class CustomSearchDelegate extends SearchDelegate {
           title: Text(result),
         );
       },
+    );*/
+    return Container();
+  }
+
+  Widget _buildSearchResults(String query){
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('hotels').where('name',isGreaterThanOrEqualTo: query).where('name',isLessThan: query + 'z').snapshots(),
+      builder: (context,snapshot){
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return Center(child: CircularProgressIndicator());
+        }
+
+        if(snapshot.hasError){
+          return Center(child: Text('Error : ${snapshot.error}'));
+        }
+
+        if(!snapshot.hasData || snapshot.data!.docs.isEmpty){
+          return Center(child: Text('No hotels found.'));
+        }
+
+        List <Hotel> hotels = snapshot.data!.docs.map((doc){
+          return Hotel(
+            id: doc.id,
+            name: doc['name'],
+            imageUrl: doc['imageUrl'],
+          );
+        }).toList();
+
+        return ListView.builder(
+            itemCount: hotels.length,
+            itemBuilder: (context,index){
+              Hotel hotel =hotels[index];
+              return ListTile(
+                title: Text(hotel.name),
+                leading: Image.network(hotel.imageUrl),
+                onTap: (){
+                  a.getToHotelDetailPage(hotel);
+                },
+              );
+            },
+        );
+
+      },
     );
   }
+
 }

@@ -70,11 +70,11 @@ class _LoginState extends State<Login> {
                       color: Colors.black,
                     ),
                     decoration: InputDecoration(
-                      hintText: 'Username',
+                      hintText: 'Email',
                       hintStyle:const TextStyle(
                         color: Colors.black,
                       ),
-                      prefixIcon: const Icon(Icons.account_circle),
+                      prefixIcon: const Icon(Icons.email_outlined),
                       prefixIconColor: Colors.black,
                       filled: true,
                       fillColor: Colors.white10,

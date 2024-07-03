@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotel_khujo/Hotel/HotelDetailPage.dart';
+import 'package:hotel_khujo/Hotel/hotel.dart';
 import 'package:hotel_khujo/Pages/profile.dart';
 
 import 'Pages/help.dart';
