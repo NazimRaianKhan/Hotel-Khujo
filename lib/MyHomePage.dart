@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: Colors.deepOrangeAccent,
         actions: [
           IconButton(
               onPressed: () {
@@ -79,6 +80,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   onTap: () {
                     a.getToHelpPage();
                   }, //Help Page
+                ),
+                ListTile(
+                  leading: Icon(Icons.directions_run),
+                  title: Text("Sign Out"),
+                  onTap: () {
+                    a.getToLoginPage();
+                  }, // Sign Out
                 ),
               ],
             )),

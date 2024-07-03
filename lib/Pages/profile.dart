@@ -81,6 +81,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     a.getToHelpPage();
                   }, //Help Page
                 ),
+                ListTile(
+                  leading: Icon(Icons.directions_run),
+                  title: Text("Sign Out"),
+                  onTap: () {
+                    a.getToLoginPage();
+                  }, // Sign Out
+                ),
               ],
             )),
       ),
