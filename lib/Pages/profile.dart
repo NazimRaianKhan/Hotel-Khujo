@@ -2,11 +2,16 @@
  * @author: ARDhruvo
  */
 
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_khujo/LoginC.dart';
 import 'package:hotel_khujo/Pages/profileC.dart';
 import 'package:hotel_khujo/RegC.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
 
 // void main() => runApp(const MyApp());
 
@@ -39,10 +44,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  final profileC a=Get.put(profileC());
+
   @override
   Widget build(BuildContext context) {
 
-    final profileC a=Get.put(profileC());
+
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
@@ -55,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
             color: const Color.fromRGBO(255, 183, 77, 1),
             child: ListView(
               children: [
-                DrawerHeader(child: Center(child: Text("Insert Icon here"))),
+                DrawerHeader(child: Center(child: Image.asset('assets/logo1.png'))),
                 ListTile(
                   leading: Icon(Icons.home),
                   title: Text("Home"),
@@ -95,21 +103,17 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Your Profile',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 50,
+
+            Obx(() => GestureDetector(
+              onTap: () => _changeProfileImage(context),
+              child: CircleAvatar(
+                radius: 75,
+                backgroundImage: Get.find<profileC>().profileImageUrl != ''
+                    ? NetworkImage(Get.find<profileC>().profileImageUrl!)
+                    : AssetImage('assets/default_profile_image.jpg') as ImageProvider,
               ),
-            ),
-
-            // Replace with image uploading things
-
-            Icon(
-              Icons.account_circle,
-              size: 150,
-            ),
-
+            )),
+            const SizedBox(height: 25),
             Text(
               a.displayName()!.toUpperCase(),
               style: TextStyle(
@@ -135,16 +139,38 @@ class _ProfilePageState extends State<ProfilePage> {
                 fontSize: 15,
               ),
             ),
-            Text(
-              'Account Status (Statistics and stuffs)',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-              ),
-            ),
+
           ],
         ),
       ),
     );
+  }
+  Future<void> _changeProfileImage(BuildContext context) async {
+    print('Tapped CircleAvatar');
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      String fileName = path.basename(imageFile.path);
+
+      try {
+        firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+            .ref()
+            .child('profile_images')
+            .child(fileName);
+
+        firebase_storage.UploadTask uploadTask = ref.putFile(imageFile);
+        firebase_storage.TaskSnapshot taskSnapshot = await uploadTask;
+        String imageUrl = await taskSnapshot.ref.getDownloadURL();
+
+        Get.find<profileC>().updateProfileImage(imageUrl);
+      } catch (e) {
+        print('Failed to upload profile image: $e');
+        // Handle error
+      }
+    } else {
+      print('No image selected.');
+    }
   }
 }

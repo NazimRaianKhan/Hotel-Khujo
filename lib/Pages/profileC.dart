@@ -1,12 +1,24 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_khujo/MyHomePage.dart';
 import 'package:hotel_khujo/Pages/help.dart';
 
+
 import '../Login.dart';
 
 class profileC extends GetxController{
+
+  RxString _profileImageUrl = ''.obs;
+
+  String? get profileImageUrl => _profileImageUrl.value;
+
+  void updateProfileImage(String imageUrl) {
+    _profileImageUrl.value = imageUrl;
+  }
 
   getToHomePage() => Get.to(
         ()=>const MyHomePage(title: 'home'),
