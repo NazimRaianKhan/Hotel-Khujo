@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:hotel_khujo/MyHomePage.dart';
 import 'package:hotel_khujo/Pages/help.dart';
 
+import '../Login.dart';
+
 class profileC extends GetxController{
 
   getToHomePage() => Get.to(
@@ -15,6 +17,12 @@ class profileC extends GetxController{
         ()=>const HelpPage(title: 'help'),
     transition: Transition.rightToLeft,
     duration: Durations.long1,
+  );
+
+  getToLoginPage() => Get.offAll(
+        ()=>const Login(),
+    transition: Transition.rightToLeft,
+    duration: Durations.extralong1,
   );
 
   String? displayName(){

@@ -28,9 +28,9 @@ class HelpPage extends StatefulWidget {
   final String title;
 
   const HelpPage({
-    super.key,
+    Key? key,
     required this.title,
-  });
+  }) : super(key: key);
 
   @override
   State<HelpPage> createState() => _HelpPageState();
@@ -39,11 +39,8 @@ class HelpPage extends StatefulWidget {
 class _HelpPageState extends State<HelpPage> {
   @override
   Widget build(BuildContext context) {
-
     final HelpC a=Get.put(HelpC());
-
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(239, 108, 0, 1),
         title: Text(widget.title),
@@ -78,83 +75,88 @@ class _HelpPageState extends State<HelpPage> {
                   title: Text("Favorites"),
                   onTap: () {}, //Favorite Page
                 ),
+                ListTile(
+                  leading: Icon(Icons.directions_run),
+                  title: Text("Sign Out"),
+                  onTap: () {
+                    a.getToLoginPage();
+                  }, // Sign Out
+                ),
               ],
             )),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Instructions:',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 50,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Contributors:',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-            Text(
-              'The App isn\'t ready yet lol',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 25,
+              buildImageItem('assets/founder3.jpg', 'Dhruvo'),
+              const Text(
+                'ID: 20220204003',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-            const SizedBox(height: 50),
-
-            // Add github logo linking to individual github pages later
-
-            Text(
-              'Contributors:',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 30,
+              SizedBox(height: 10),
+              buildImageItem('assets/founder4.jpg', 'Yahya'),
+              const Text(
+                'ID: 20220204004',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-            Text(
-              'Md. Aribur Rahman Dhruvo',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
+              SizedBox(height: 10),
+              buildImageItem('assets/founder26.jpg', 'Nazim'),
+              const Text(
+                'ID: 20220204026',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-            Text(
-              'ID: 20220204003',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-              ),
-            ),
-            Text(
-              'Mohammad Yahya Bin Belal',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-              ),
-            ),
-            Text(
-              'ID: 20220204004',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-              ),
-            ),
-            Text(
-              'Nazim Raian Khan',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-              ),
-            ),
-            Text(
-              'ID: 20220204026',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget buildImageItem(String imagePath, String imageLabel) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.asset(
+            imagePath,
+            height: 400,
+            fit: BoxFit.cover,
+          ),
+        ),
+        SizedBox(height: 8),
+        Text(
+          imageLabel,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }
