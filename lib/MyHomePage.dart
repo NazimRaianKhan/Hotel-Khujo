@@ -135,48 +135,63 @@ class CustomSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    /*List<String> matchQuery = [];
-    for (var fruit in searchTerms) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );*/
     return _buildSearchResults(query);
   }
 
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    /*List<String> matchQuery = [];
-    for (var fruit in searchTerms) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
+
+    return FutureBuilder<List<String>>(
+      future: _getSuggestions(query),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        List<String>? suggestions = snapshot.data;
+
+        return ListView.builder(
+          itemCount: suggestions?.length ?? 0,
+          itemBuilder: (context, index) {
+            String suggestion = suggestions![index];
+            return ListTile(
+              title: Text(suggestion),
+              onTap: () {
+                query = suggestion;
+                showResults(context);
+              },
+            );
+          },
         );
       },
-    );*/
-    return Container();
+    );
+  }
+
+  Future<List<String>> _getSuggestions(String query) async {
+
+    if (query.isEmpty) {
+      return [];
+    }
+
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('hotels')
+        .orderBy('name')
+        .where('name', isGreaterThanOrEqualTo: query)
+        .where('name', isLessThan: query + 'z')
+        .limit(5)
+        .get();
+
+    return querySnapshot.docs.map((doc) => doc['name'] as String).toList();
   }
 
   Widget _buildSearchResults(String query){
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('hotels').where('name',isGreaterThanOrEqualTo: query).where('name',isLessThan: query + 'z').snapshots(),
+      stream: FirebaseFirestore.instance.collection('hotels').where('name',isGreaterThanOrEqualTo: query).where('name' ,isLessThan: query + 'z').snapshots(),
       builder: (context,snapshot){
         if(snapshot.connectionState == ConnectionState.waiting){
           return Center(child: CircularProgressIndicator());
