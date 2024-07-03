@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:hotel_khujo/Hotel/HotelDetailPageC.dart';
 import 'package:hotel_khujo/Hotel/hotel.dart';
 
 class HotelDetailsPage extends StatelessWidget {
   final Hotel hotel;
+  final Hoteldetailpagec a=Get.put(Hoteldetailpagec());
 
   HotelDetailsPage({required this.hotel});
 
@@ -22,6 +26,7 @@ class HotelDetailsPage extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: ElevatedButton(
               onPressed: () async{
+                a.getToSuccessfulPage();
               },
               style: ElevatedButton.styleFrom(
                 elevation: 10,
