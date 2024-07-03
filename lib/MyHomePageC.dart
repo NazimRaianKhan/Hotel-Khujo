@@ -10,13 +10,13 @@ import 'Pages/help.dart';
 class MyHomePageC extends GetxController{
 
   getToProfilePage() => Get.to(
-        ()=>const ProfilePage(title: 'Profile'),
+        ()=>const ProfilePage(title: 'Your Profile'),
     transition: Transition.rightToLeft,
     duration: Durations.long1,
   );
 
   getToHelpPage() => Get.to(
-        ()=>const HelpPage(title: 'help'),
+        ()=>const HelpPage(title: 'Helps and Services'),
     transition: Transition.rightToLeft,
     duration: Durations.long1,
   );
