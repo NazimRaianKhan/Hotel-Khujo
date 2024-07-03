@@ -78,6 +78,13 @@ class _HelpPageState extends State<HelpPage> {
                   title: Text("Favorites"),
                   onTap: () {}, //Favorite Page
                 ),
+                ListTile(
+                  leading: Icon(Icons.directions_run),
+                  title: Text("Sign Out"),
+                  onTap: () {
+                    a.getToLoginPage();
+                  }, // Sign Out
+                ),
               ],
             )),
       ),
