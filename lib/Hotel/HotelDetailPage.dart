@@ -18,9 +18,9 @@ class HotelDetailsPage extends StatelessWidget {
         children: [
           Image.network(hotel.imageUrl),
           SizedBox(height: 20),
-          Text(' ${hotel.name} '
-              '\n107 Kazi Nazrul Islam Avenue, Ramna, Dhaka, Bangladesh, 1215 - See map'
-              '\nThe car parking and the Wi-Fi are always free, so you can stay in touch and come and go as you please. Conveniently situated in the Ramna part of Dhaka, this property puts you close to attractions and interesting dining options. Dont leave before paying a visit to the famous Shahjalal International Airport. Rated with 5 stars, this high-quality property provides guests with access to massage, restaurant and hot tub on-site.'),
+          Text(' ${hotel.name} '),
+          Text(' ${hotel.location} '),
+          Text(' ${hotel.descrip} '),
           // Add more details or actions as needed
           Padding(
             padding: const EdgeInsets.all(8),

@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:hotel_khujo/Hotel/HotelDetailPageC.dart';
 import 'package:hotel_khujo/Hotel/hotel.dart';
 import 'package:hotel_khujo/MyHomePageC.dart';
+import 'package:dots_indicator/dots_indicator.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class MyHomePage extends StatefulWidget {
   final String title;
@@ -30,6 +32,32 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  final List<String> _carouselImages = [];
+  final _firestoreInstance = FirebaseFirestore.instance;
+  var _dotPosition = 0;
+
+
+  fetchCarouselImages() async {
+    QuerySnapshot qn =
+    await _firestoreInstance.collection("slides").get();
+    setState(() {
+      for (int i = 0; i < qn.docs.length; i++) {
+        _carouselImages.add(
+          qn.docs[i]["slide-img"],
+        );
+        print(qn.docs[i]["slide-img"]);
+      }
+    });
+
+    return qn.docs;
+  }
+
+  @override
+  void initState() {
+    fetchCarouselImages();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -47,9 +75,57 @@ class _MyHomePageState extends State<MyHomePage> {
                     context: context,
                     delegate: CustomSearchDelegate(),);
               },
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
           ),
         ],
+      ),
+      body: Center(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AspectRatio(
+                aspectRatio: 3.5,
+                child: CarouselSlider(
+                    items: _carouselImages
+                        .map((item) => Padding(
+                      padding: const EdgeInsets.only(left: 3, right: 3),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage(item),
+                                fit: BoxFit.fitWidth)),
+                      ),
+                    ))
+                        .toList(),
+                    options: CarouselOptions(
+                        autoPlay: false,
+                        enlargeCenterPage: true,
+                        viewportFraction: 0.8,
+                        enlargeStrategy: CenterPageEnlargeStrategy.height,
+                        onPageChanged: (val, carouselPageChangedReason) {
+                          setState(() {
+                            _dotPosition = val;
+                          });
+                        })),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+
+              DotsIndicator(
+                dotsCount:
+                _carouselImages.isEmpty ? 1 : _carouselImages.length,
+                position: _dotPosition.toDouble(),
+                decorator: const DotsDecorator(
+                  activeColor: Colors.deepOrange,
+                  color: Colors.deepOrange,
+                  spacing: EdgeInsets.all(2),
+                  activeSize: Size(8, 8),
+                  size: Size(6, 6),
+                ),
+              ),
+            ]
+        ),
       ),
       drawer: Drawer(
         child: Container(
@@ -58,60 +134,38 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 DrawerHeader(child: Center(child: Image.asset('assets/logo1.png'),)),
                 ListTile(
-                  leading: Icon(Icons.account_circle),
-                  title: Text("Profile"),
+                  leading: const Icon(Icons.account_circle),
+                  title: const Text("Profile"),
                   onTap: () {
                     a.getToProfilePage();
                   }, //Profile Page
                 ),
                 ListTile(
-                  leading: Icon(Icons.assignment_turned_in),
-                  title: Text("Booked"),
+                  leading: const Icon(Icons.assignment_turned_in),
+                  title: const Text("Booked"),
                   onTap: () {}, //Booked Page
                 ),
                 ListTile(
-                  leading: Icon(Icons.favorite_outlined),
-                  title: Text("Favorites"),
+                  leading: const Icon(Icons.favorite_outlined),
+                  title: const Text("Favorites"),
                   onTap: () {}, //Favorite Page
                 ),
                 ListTile(
-                  leading: Icon(Icons.announcement),
-                  title: Text("Helps and Services"),
+                  leading: const Icon(Icons.announcement),
+                  title: const Text("Helps and Services"),
                   onTap: () {
                     a.getToHelpPage();
                   }, //Help Page
                 ),
                 ListTile(
-                  leading: Icon(Icons.directions_run),
-                  title: Text("Sign Out"),
+                  leading: const Icon(Icons.directions_run),
+                  title: const Text("Sign Out"),
                   onTap: () {
                     a.getToLoginPage();
                   }, // Sign Out
                 ),
               ],
             )),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Stay Tuned for the Dashboard on the Home Page!',
-            ),
-            const Text(
-              'Until then press button to make number go beeg',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
@@ -154,7 +208,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
       future: _getSuggestions(query),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (snapshot.hasError) {
@@ -202,7 +256,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
       stream: FirebaseFirestore.instance.collection('hotels').where('name',isGreaterThanOrEqualTo: query).where('name' ,isLessThan: query + 'z').snapshots(),
       builder: (context,snapshot){
         if(snapshot.connectionState == ConnectionState.waiting){
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         if(snapshot.hasError){
@@ -210,7 +264,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
         }
 
         if(!snapshot.hasData || snapshot.data!.docs.isEmpty){
-          return Center(child: Text('No hotels found.'));
+          return const Center(child: Text('No hotels found.'));
         }
 
         List <Hotel> hotels = snapshot.data!.docs.map((doc){
@@ -218,6 +272,8 @@ class CustomSearchDelegate extends SearchDelegate<String> {
             id: doc.id,
             name: doc['name'],
             imageUrl: doc['imageUrl'],
+            descrip: doc['descrip'],
+            location: doc['location'],
           );
         }).toList();
 
