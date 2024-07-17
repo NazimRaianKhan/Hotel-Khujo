@@ -26,7 +26,7 @@ class HotelDetailsPage extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: ElevatedButton(
               onPressed: () async{
-                a.getToSuccessfulPage();
+                a.getToBookingPage();
               },
               style: ElevatedButton.styleFrom(
                 elevation: 10,

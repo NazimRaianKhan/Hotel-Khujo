@@ -95,7 +95,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ListTile(
                 leading: const Icon(Icons.assignment_turned_in),
                 title: const Text("Booked"),
-                onTap: () {},
+                onTap: () {
+                  a.getToBookingPage();
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.favorite_outlined),
