@@ -7,6 +7,8 @@ import 'package:hotel_khujo/MyHomePageC.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
+import 'Hotel/HotelDetailPage.dart';
+
 class MyHomePage extends StatefulWidget {
   final String title;
 
@@ -36,6 +38,8 @@ class _MyHomePageState extends State<MyHomePage> {
         _products.add({
           "product-name": qn.docs[i]["name"],
           "product-img": qn.docs[i]["imageUrl"],
+          "location": qn.docs[i]["location"],
+          "descrip": qn.docs[i]["descrip"],
         });
       }
     });
@@ -107,7 +111,20 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               itemBuilder: (_, index) {
                 return GestureDetector(
+                  onTap: () {
 
+                    Get.to(
+                          () => HotelDetailsPage(
+                        hotel: Hotel(
+                          id: index.toString(),
+                          name: _products[index]["product-name"],
+                          imageUrl: _products[index]["product-img"],
+                          descrip: _products[index]["descrip"],
+                          location: _products[index]["location"],
+                        ),
+                      ),
+                    );
+                  },
                   child: Card(
                     elevation: 3,
                     child: Column(
@@ -130,6 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
+
         ],
       ),
       drawer: Drawer(
