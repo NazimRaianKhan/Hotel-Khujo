@@ -6,6 +6,7 @@ import 'package:hotel_khujo/Hotel/hotel.dart';
 import 'package:hotel_khujo/MyHomePageC.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:hotel_khujo/Pages/profileC.dart';
 
 class MyHomePage extends StatefulWidget {
   final String title;
@@ -102,7 +103,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ListTile(
                 leading: const Icon(Icons.favorite_outlined),
                 title: const Text("Favorites"),
-                onTap: () {},
+                onTap: () {
+                  a.getTofavouritePage();
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.announcement),

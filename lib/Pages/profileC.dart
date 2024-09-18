@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_khujo/MyHomePage.dart';
+import 'package:hotel_khujo/Pages/favourite.dart';
 import 'package:hotel_khujo/Pages/help.dart';
 
 
@@ -27,6 +28,12 @@ class profileC extends GetxController{
   );
   getToHelpPage() => Get.to(
         ()=>const HelpPage(title: 'Help'),
+    transition: Transition.rightToLeft,
+    duration: Durations.long1,
+  );
+
+  getTofavouritePage() => Get.to(
+        ()=>const favourite(title: 'Favourite'),
     transition: Transition.rightToLeft,
     duration: Durations.long1,
   );

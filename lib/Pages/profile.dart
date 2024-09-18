@@ -80,7 +80,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ListTile(
                   leading: Icon(Icons.favorite_outlined),
                   title: Text("Favorites"),
-                  onTap: () {}, //Favorite Page
+                  onTap: () {
+                    a.getTofavouritePage();
+                  }, //Favorite Page
                 ),
                 ListTile(
                   leading: Icon(Icons.announcement),

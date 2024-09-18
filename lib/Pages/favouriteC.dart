@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotel_khujo/Hotel/hotel.dart';
 import 'package:hotel_khujo/MyHomePage.dart';
-import 'package:hotel_khujo/Pages/favourite.dart';
+import 'package:hotel_khujo/Pages/help.dart';
 import 'package:hotel_khujo/Pages/profile.dart';
 
 import '../Login.dart';
 
-class HelpC extends GetxController{
+class favouriteC extends GetxController{
+
+  var favorites = <Hotel>[].obs;
+
+  void toggleFavorite(Hotel hotel) {
+    if (favorites.contains(hotel)) {
+      favorites.remove(hotel);
+    } else {
+      favorites.add(hotel);
+    }
+  }
+
+  bool isFavorite(Hotel hotel) {
+    return favorites.contains(hotel);
+  }
 
   getToHomePage() => Get.to(
         ()=>const MyHomePage(title: 'Home'),
@@ -19,8 +34,8 @@ class HelpC extends GetxController{
     duration: Durations.long1,
   );
 
-  getTofavouritePage() => Get.to(
-        ()=>const favourite(title: 'Favourite'),
+  getToHelpPage() => Get.to(
+        ()=>const HelpPage(title: 'Helps and Services'),
     transition: Transition.rightToLeft,
     duration: Durations.long1,
   );

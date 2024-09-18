@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:hotel_khujo/Hotel/HotelDetailPageC.dart';
 import 'package:hotel_khujo/Hotel/hotel.dart';
+import 'package:hotel_khujo/Pages/favouriteC.dart';
 
 class HotelDetailsPage extends StatelessWidget {
   final Hotel hotel;
   final Hoteldetailpagec a=Get.put(Hoteldetailpagec());
+  final favouriteC favoritesController = Get.find();
 
   HotelDetailsPage({required this.hotel});
 
@@ -44,12 +46,16 @@ class HotelDetailsPage extends StatelessWidget {
       ),
       appBar: AppBar(
         title: Text(hotel.name),
-        actions: const [
-
-                    Icon(
-                      Icons.favorite,
-                      color: Colors.orangeAccent,
-                    ),
+        actions: [
+          Obx(() => IconButton(
+            icon: Icon(
+              favoritesController.isFavorite(hotel) ? Icons.favorite : Icons.favorite_border,
+              color: Colors.orangeAccent,
+            ),
+            onPressed: () {
+              favoritesController.toggleFavorite(hotel);
+            },
+          )),
         ],
       ),
     );
