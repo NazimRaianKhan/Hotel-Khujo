@@ -5,24 +5,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:hotel_khujo/Pages/bookingPageC.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Hotel Booking App',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: BookingPage(),
-//     );
-//   }
-// }
 
 class BookingPage extends StatefulWidget {
   @override
@@ -37,6 +19,13 @@ class _BookingPageState extends State<BookingPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   int _numberOfPeople = 1;
+
+  late DatabaseReference dbRef;
+
+  @override
+  void initState(){
+    dbRef = FirebaseDatabase.instance.ref().child('Orders');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,14 +75,16 @@ class _BookingPageState extends State<BookingPage> {
             Center(
               child: ElevatedButton(
                 onPressed: () {
+                  Map<String, String> orders = {
+                      'name': a.displayName(),
+                      'hotel': "add hotelname here",
+                      'date': _selectedDay!.toIso8601String(),
+                      'numberOfPeople': _numberOfPeople.toString()
+                    }, 
                   a.getToSuccessfulPage();
                   if (_selectedDay != null) {
                     // Send booking details to Firebase
-                    _database.child('bookings').push().set({
-                      'date': _selectedDay!.toIso8601String(),
-                      'numberOfPeople': _numberOfPeople,
-                      // Add more fields as needed
-                    }).then((_) {
+                    _database.child('bookings').push().set(orders).then((_) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Booking Successful!')),
                       );
