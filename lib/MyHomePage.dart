@@ -23,6 +23,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  //final profileC b=Get.put(profileC());
   final Hoteldetailpagec a = Get.put(Hoteldetailpagec());
   final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
   final List _products = [];

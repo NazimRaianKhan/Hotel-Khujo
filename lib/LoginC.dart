@@ -27,6 +27,9 @@ class LoginC extends GetxController{
         email: mail.text,
         password: pass.text,
       );
+      mail.clear();
+      pass.clear();
+
       getToHomePage();
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

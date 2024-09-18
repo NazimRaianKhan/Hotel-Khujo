@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_khujo/Hotel/HotelDetailPage.dart';
@@ -34,10 +35,11 @@ class MyHomePageC extends GetxController{
     duration: Durations.long1,
   );
 
-  getToLoginPage() => Get.offAll(
-        ()=>const Login(),
-    transition: Transition.rightToLeft,
-    duration: Durations.extralong1,
-  );
+  getToLoginPage() async{
+    await FirebaseAuth.instance.signOut();
+    Get.offAll(()=> const Login(),
+        transition: Transition.rightToLeft,
+        duration: Durations.long1 );
+  }
 
 }

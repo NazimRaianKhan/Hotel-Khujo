@@ -45,7 +45,14 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  final profileC a=Get.put(profileC());
+  final profileC a=Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+    a.loadProfileImage();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +117,8 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () => _changeProfileImage(context),
               child: CircleAvatar(
                 radius: 75,
-                backgroundImage: Get.find<profileC>().profileImageUrl != ''
-                    ? NetworkImage(Get.find<profileC>().profileImageUrl!)
+                backgroundImage: a.isSet.value==true
+                    ? NetworkImage(a.profileImageUrl!)
                     : AssetImage('assets/default_profile_image.jpg') as ImageProvider,
               ),
             )),
@@ -125,7 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 25),
 
-            // Use firebase to fill in the names and ids
+
 
             Text(
               'Name: ${a.displayName()}',
@@ -166,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
         firebase_storage.TaskSnapshot taskSnapshot = await uploadTask;
         String imageUrl = await taskSnapshot.ref.getDownloadURL();
 
-        Get.find<profileC>().updateProfileImage(imageUrl);
+        a.updateProfileImage(imageUrl);
       } catch (e) {
         print('Failed to upload profile image: $e');
         // Handle error

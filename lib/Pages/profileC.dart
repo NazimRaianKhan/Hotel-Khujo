@@ -7,18 +7,34 @@ import 'package:get/get.dart';
 import 'package:hotel_khujo/MyHomePage.dart';
 import 'package:hotel_khujo/Pages/favourite.dart';
 import 'package:hotel_khujo/Pages/help.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 import '../Login.dart';
 
 class profileC extends GetxController{
 
-  RxString _profileImageUrl = ''.obs;
+  var isSet = false.obs;
+  var _profileImageUrl = ''.obs;
 
   String? get profileImageUrl => _profileImageUrl.value;
 
-  void updateProfileImage(String imageUrl) {
+  Future<void> updateProfileImage(String imageUrl) async {
     _profileImageUrl.value = imageUrl;
+    isSet.value=true;
+
+    final prefs=await SharedPreferences.getInstance();
+    await prefs.setString('profileImageUrl',imageUrl);
+
+  }
+
+  Future<void> loadProfileImage() async{
+    final prefs = await SharedPreferences.getInstance();
+    String? savedUrl = prefs.getString('profileImageUrl');
+    if (savedUrl != null) {
+      _profileImageUrl.value = savedUrl;
+      isSet.value = true;
+    }
   }
 
   getToHomePage() => Get.to(
