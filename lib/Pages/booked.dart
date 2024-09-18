@@ -1,21 +1,33 @@
 
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hotel_khujo/LoginC.dart';
+import 'package:hotel_khujo/Pages/bookedC.dart';
+import 'package:hotel_khujo/RegC.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
  
-class FetchData extends StatefulWidget {
-  const FetchData({Key? key}) : super(key: key);
+class Booked extends StatefulWidget {
+  const Booked({Key? key}) : super(key: key);
  
   @override
-  State<FetchData> createState() => _FetchDataState();
+  State<Booked> createState() => _BookedState();
 }
  
-class _FetchDataState extends State<FetchData> {
+class _BookedState extends State<Booked> {
+
+  final bookedC a=Get.put(bookedC());
   
-  Query dbRef = FirebaseDatabase.instance.ref().child('Students');
-  DatabaseReference reference = FirebaseDatabase.instance.ref().child('Students');
+  Query dbRef = FirebaseDatabase.instance.ref().child('orders');
+  DatabaseReference reference = FirebaseDatabase.instance.ref().child('orders');
   
-  Widget listItem({required Map student}) {
+  Widget listItem({required Map orders}) {
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
@@ -26,58 +38,27 @@ class _FetchDataState extends State<FetchData> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            student['name'],
+            orders['name'],
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
           ),
           const SizedBox(
             height: 5,
           ),
           Text(
-            student['age'],
+            orders['hotel'],
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
           ),
           const SizedBox(
             height: 5,
           ),
           Text(
-            student['salary'],
+            orders['numberOfPeople'],
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                 Navigator.push(context, MaterialPageRoute(builder: (_) => UpdateRecord(studentKey: student['key'])));
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.edit,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                width: 6,
-              ),
-              GestureDetector(
-                onTap: () {
-                  reference.child(student['key']).remove();
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.delete,
-                      color: Colors.red[700],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )
+          Text(
+            orders['date'],
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          ),
         ],
       ),
     );
@@ -87,7 +68,38 @@ class _FetchDataState extends State<FetchData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fetching data'),
+        backgroundColor: Color.fromRGBO(239, 108, 0, 1),
+        title: Text("Booked History"),
+      ),
+      drawer: Drawer(
+        child: Container(
+            color: const Color.fromRGBO(255, 183, 77, 1),
+            child: ListView(
+              children: [
+                DrawerHeader(child: Center(child: Image.asset('assets/logo1.png'))),
+                ListTile(
+                  leading: Icon(Icons.home),
+                  title: Text("Home"),
+                  onTap: () {
+                    a.getToHomePage();
+                  }, //Home Page
+                ),
+                ListTile(
+                  leading: Icon(Icons.announcement),
+                  title: Text("Helps and Services"),
+                  onTap: () {
+                    a.getToHelpPage();
+                  }, //Help Page
+                ),
+                ListTile(
+                  leading: Icon(Icons.directions_run),
+                  title: Text("Sign Out"),
+                  onTap: () {
+                    a.getToLoginPage();
+                  }, // Sign Out
+                ),
+              ],
+            )),
       ),
       body: Container(
         height: double.infinity,
@@ -95,10 +107,10 @@ class _FetchDataState extends State<FetchData> {
           query: dbRef,
           itemBuilder: (BuildContext context, DataSnapshot snapshot, Animation<double> animation, int index) {
  
-            Map student = snapshot.value as Map;
-            student['key'] = snapshot.key;
+            Map orders = snapshot.value as Map;
+            orders['key'] = snapshot.key;
  
-            return listItem(student: student);
+            return listItem(orders: orders);
  
           },
         ),
