@@ -5,7 +5,7 @@ import 'package:hotel_khujo/MyHomePage.dart';
 class SuccessfulPageC extends GetxController{
 
   getToHomePage() => Get.to(
-        ()=>const MyHomePage(title: 'home'),
+        ()=>const MyHomePage(title: 'Home'),
     transition: Transition.rightToLeft,
     duration: Durations.long1,
   );

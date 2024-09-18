@@ -8,12 +8,12 @@ import '../Login.dart';
 class HelpC extends GetxController{
 
   getToHomePage() => Get.to(
-        ()=>const MyHomePage(title: 'home'),
+        ()=>const MyHomePage(title: 'Home'),
     transition: Transition.rightToLeft,
     duration: Durations.long1,
   );
   getToProfilePage() => Get.to(
-        ()=>const ProfilePage(title: 'profile'),
+        ()=>const ProfilePage(title: 'Profile'),
     transition: Transition.rightToLeft,
     duration: Durations.long1,
   );
