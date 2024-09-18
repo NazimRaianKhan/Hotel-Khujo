@@ -8,7 +8,7 @@ import 'package:hotel_khujo/Pages/bookingPage.dart';
 import '../Login.dart';
 import 'help.dart';
 
-class MyHomePageC extends GetxController{
+class bookedC extends GetxController{
 
   getToProfilePage() => Get.to(
         ()=>const ProfilePage(title: 'Your Profile'),
