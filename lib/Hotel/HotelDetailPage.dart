@@ -21,6 +21,7 @@ class HotelDetailsPage extends StatelessWidget {
           Image.network(hotel.imageUrl),
           SizedBox(height: 20),
           Text(' ${hotel.name} '),
+          Text(' ${hotel.price} '),
           Text(' ${hotel.location} '),
           Text(' ${hotel.descrip} '),
           // Add more details or actions as needed

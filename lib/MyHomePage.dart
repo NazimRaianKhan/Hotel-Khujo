@@ -8,6 +8,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:hotel_khujo/Pages/profileC.dart';
 
+import 'Hotel/HotelDetailPage.dart';
+
 class MyHomePage extends StatefulWidget {
   final String title;
 
@@ -21,10 +23,35 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final Hoteldetailpagec a = Get.put(Hoteldetailpagec());
+  final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
+  final List _products = [];
+
   Future<List<DocumentSnapshot>> getimgfromFirebase() async {
-    var firestore = FirebaseFirestore.instance;
-    QuerySnapshot qn = await firestore.collection("slides").get();
+    QuerySnapshot qn = await _firestoreInstance.collection("slides").get();
     return qn.docs;
+  }
+
+  fetchProducts() async {
+    QuerySnapshot qn = await _firestoreInstance.collection("hotels").get();
+    setState(() {
+      for (int i = 0; i < qn.docs.length; i++) {
+        _products.add({
+          "product-name": qn.docs[i]["name"],
+          "product-img": qn.docs[i]["imageUrl"],
+          "location": qn.docs[i]["location"],
+          "descrip": qn.docs[i]["descrip"],
+          "price": qn.docs[i]["price"],
+        });
+      }
+    });
+    return qn.docs;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchProducts(); // Fetch products at the start
   }
 
   @override
@@ -48,33 +75,83 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: FutureBuilder<List<DocumentSnapshot>>(
-        future: getimgfromFirebase(),
-        builder: (_, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No images found.'));
-          }
-          return CarouselSlider.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index, realIdx) {
-              DocumentSnapshot sliderImage = snapshot.data![index];
-              return Container(
-                child: Image.network(sliderImage['img']),
+      body: Column(
+        children: [
+          FutureBuilder<List<DocumentSnapshot>>(
+            future: getimgfromFirebase(),
+            builder: (_, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              }
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('No images found.'));
+              }
+              return CarouselSlider.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index, realIdx) {
+                  DocumentSnapshot sliderImage = snapshot.data![index];
+                  return Image.network(sliderImage['img']);
+                },
+                options: CarouselOptions(
+                  autoPlay: true,
+                  aspectRatio: 1,
+                  enlargeCenterPage: true,
+                ),
               );
             },
-            options: CarouselOptions(
-              autoPlay: true,
-              aspectRatio: 1.0,
-              enlargeCenterPage: true,
+          ),
+          const SizedBox(height: 5),
+          Expanded(
+            child: GridView.builder(
+              itemCount: _products.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 1,
+              ),
+              itemBuilder: (_, index) {
+                return GestureDetector(
+                  onTap: () {
+
+                    Get.to(
+                          () => HotelDetailsPage(
+                        hotel: Hotel(
+                          id: index.toString(),
+                          name: _products[index]["product-name"],
+                          imageUrl: _products[index]["product-img"],
+                          descrip: _products[index]["descrip"],
+                          location: _products[index]["location"],
+                          price: _products[index]["price"],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    elevation: 3,
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 2,
+                          child: Container(
+                            color: Colors.deepOrangeAccent,
+                            child: Image.network(
+                              _products[index]["product-img"],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Text(_products[index]["product-name"]),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+
+        ],
       ),
       drawer: Drawer(
         child: Container(
@@ -231,6 +308,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
           return Hotel(
             id: doc.id,
             name: doc['name'],
+            price: doc['price'],
             imageUrl: doc['imageUrl'],
             descrip: doc['descrip'],
             location: doc['location'],
