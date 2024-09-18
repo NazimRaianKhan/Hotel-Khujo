@@ -40,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
           "product-img": qn.docs[i]["imageUrl"],
           "location": qn.docs[i]["location"],
           "descrip": qn.docs[i]["descrip"],
+          "price": qn.docs[i]["price"],
         });
       }
     });
@@ -121,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           imageUrl: _products[index]["product-img"],
                           descrip: _products[index]["descrip"],
                           location: _products[index]["location"],
+                          price: _products[index]["price"],
                         ),
                       ),
                     );
@@ -303,6 +305,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
           return Hotel(
             id: doc.id,
             name: doc['name'],
+            price: doc['price'],
             imageUrl: doc['imageUrl'],
             descrip: doc['descrip'],
             location: doc['location'],
